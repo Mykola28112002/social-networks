@@ -5,11 +5,9 @@ const { createNotFoundHttpError } = require("../helpers/index");
 
 async function getAll(req, res, next) {
     const { _id: owner } = req.user;
-    const { limit, page } = req.query;
-    console.log(":", limit, page);
 
-    const skip = (page - 1) * limit;
-    const contacts = await Contact.find({ owner }).skip(skip).limit(limit);
+    const contacts = await Contact.find()
+
     if (contacts) {
         return res.json({
             data: contacts,
@@ -18,10 +16,28 @@ async function getAll(req, res, next) {
     return next(createNotFoundHttpError());
 }
 
-async function create(req, res, next) {
+async function getAllUser(req, res, next) {
     const { _id: owner } = req.user;
+    
+    // const { userId } = req.body;
+    
+
+    const contacts = await Contact.find({ owner })
+    if (contacts) {
+        return res.json({
+            data: contacts,
+        });
+    }
+    return next(createNotFoundHttpError());
+}
+
+
+async function create(req, res, next) {
+    const { _id: owner, email } = req.user;
+    console.log(email);
     const contact = req.body;
-    const createdContact = await Contact.create({...contact,owner});
+    
+    const createdContact = await Contact.create({...contact,owner,email});
     if (createdContact) {
         return res.status(201).json({
         data: {
@@ -73,6 +89,7 @@ async function updateStatusContact(req, res, next) {
 
 module.exports = {
   getAll,
+  getAllUser,
   create,
   deleteById,
   updateById,

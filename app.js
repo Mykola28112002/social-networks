@@ -15,7 +15,7 @@ app.use(express.json());
 
 
 app.use("/api/users", userRouter);
-app.use("/api/contacts", contactsRouter);
+app.use("/api/messages", contactsRouter);
 app.use("/api/public", express.static("public"));
 
 app.use((req, res) => {

@@ -5,24 +5,12 @@ const contactSchema = new Schema(
       type: Schema.ObjectId,
       ref: 'users',
     },
-    name: {
-      type: String,
-      required: [true, 'Set name for contact'],
-    },
-    email: {
-      type: String,
-    },
-    phone: {
-      type: String,
-    },
-    favorite: {
-      type: Boolean,
-      default: false,
-    },
+    email: String,
+    message: String
   }
 );
 
-const Contact = model("contact", contactSchema)
+const Contact = model("message", contactSchema)
 
 module.exports = {
   Contact
